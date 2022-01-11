@@ -43,6 +43,15 @@ function Navbar() {
             </li>
             <li className='nav-item'>
               <Link
+                to='/faqs'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                FAQ's
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
                 to='/about-us'
                 className='nav-links'
                 onClick={closeMobileMenu}
@@ -57,15 +66,6 @@ function Navbar() {
                 onClick={closeMobileMenu}
               >
                 Support
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link
-                to='/faqs'
-                className='nav-links'
-                onClick={closeMobileMenu}
-              >
-                FAQ's
               </Link>
             </li>
             <li>
@@ -84,5 +84,4 @@ function Navbar() {
     </>
   );
 }
-
 export default Navbar;

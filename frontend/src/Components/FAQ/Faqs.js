@@ -1,5 +1,6 @@
+import React from 'react'
 import Faq from "react-faq-component";
-import './Faqs.css'
+import './Faqs.css';
 
 const data = {
     title: "Frequently Asked Question (FAQ's)",
@@ -17,19 +18,39 @@ const data = {
             content: `A reservation cancellation fee pre-determined by the company may apply if you cancel your reservation. No fee shall apply if the cancellation is made at least seven days prior to the date of pick-up. The cancellation fee shall apply for those made six days or less prior to the date of pick-up.`,
         },
         {
-            title: "What is the package version?",
-            content: <p>current version is 1.2.1</p>,
+            title: "Can I pay in cash?",
+            content: `Yes. We generally accept payment by UPI, credit cards, debit cards, net-banking and wallets, but if the reservation is made in advance, we allow payment in cash at the rental station where the vehicle is to be picked up. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver’s license. You will be required to pay by UPI, credit cards, debit cards, net-banking and wallets, if you rent a car from a rental station without a reservation.`,
         },
     ],
 };
 
-function Faqs () {
-  return (
-    <div className="styles">
-            <Faq className="data"
-                data={data}
-            />
-        </div>
-  );
-}
-export default Faqs;
+const styles = {
+    bgColor: '#333',
+    arrowColor: "white",
+    titleTextColor: "white",
+    transitionDuration: "1s",
+    timingFunc: "ease",
+
+    rowTitleColor: "white",
+    rowTitleTextSize:'20px',
+    
+    rowContentColor: "white",
+    rowContentTextSize: '16px',
+    rowContentPaddingTop: '10px',
+    rowContentPaddingBottom: '10px',
+    rowContentPaddingLeft: '50px',
+    rowContentPaddingRight: '150px'
+};
+
+const Faqs = ()=> {
+    return (
+      <div className="main">
+          <div className='faq'>
+              <Faq data={data}
+              styles={styles}
+              />
+          </div>
+      </div>
+    );
+  };
+  export default Faqs;  
