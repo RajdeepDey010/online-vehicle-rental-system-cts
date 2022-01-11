@@ -1,0 +1,37 @@
+.searchvehicle{
+    background-color: #333;
+    display: block;
+    margin-top: 200px;
+    margin-left: 200px;
+    border-radius: 25px;
+    text-align: center;
+    width: 40%;
+    padding: 60px;
+    opacity: 0.8;
+}
+
+form {
+    display: inline-block;
+    text-align:left;
+}
+.searchvehicle label{
+    color: #fff;
+    text-decoration: solid;
+}
+.button{
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    background: rgb(240, 93, 93);
+}
+.button:hover{
+    padding: 8px 20px;
+    transition: all 0.5s ease-out;
+    background: #fff;
+    color: red;
+    transition: 250ms;
+}
