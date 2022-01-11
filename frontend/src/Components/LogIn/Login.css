@@ -9,15 +9,16 @@
     padding: 60px;
     opacity: 0.8;
 }
-.ui-message-success{
+.ui-message{
     color: #fff;
 }
 h1 {
     color: #fff;
 }
-form {
+.ui-form {
     display: inline-block;
     text-align:left;
+    line-height: 35px;
 }
 .field{
     color: #fff;

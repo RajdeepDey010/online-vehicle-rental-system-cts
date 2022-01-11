@@ -46,15 +46,14 @@ function Login() {
   return (
     <div className="container">
       {Object.keys(formErrors).length === 0 && isSubmit ? (
-        <div className="ui-message-success">Signed in successfully</div>
+        <div className="ui-message">Log-in successfully</div>
       ) : (
         <pre></pre>
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="ui form">
+        <div className="ui-form">
             <h1>Login </h1>
-            <br/>
           <div className="field">
             <label>Email - </label> &nbsp;
             <input
@@ -65,8 +64,7 @@ function Login() {
               onChange={handleChange}
             />
           </div>
-          <br/>
-          <p>{formErrors.email}</p>
+          <p className="ui-message">{formErrors.email}</p>
           <div className="field">
             <label>Password - </label> &nbsp;
             <input
@@ -77,8 +75,7 @@ function Login() {
               onChange={handleChange}
             />
           </div>
-          <br/>
-          <p>{formErrors.password}</p>
+          <p className="ui-message">{formErrors.password}</p>
           <button className="fluid ui button blue">Submit</button>
         </div>
       </form>

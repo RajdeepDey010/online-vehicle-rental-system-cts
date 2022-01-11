@@ -8,12 +8,12 @@ function Aboutus() {
       <div className='aboutus-container'>
         <section className='aboutus-subscription'>
           <p className='aboutus-subscription-heading'>
-          "A car for every occasion"
+          "A Car For Every Occasion"
           </p>
           <p><emp><h3>Car Rentalz offers city taxis, inter-city cabs, and local cabs at hourly packages</h3></emp></p>
           <br/>
           <p className='aboutus-subscription-text'>
-            You can unsubscribe at any time.
+            You can unsubscribe us at any time.
           </p>
           <div className='input-areas'>
             <form>
