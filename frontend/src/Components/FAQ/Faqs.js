@@ -7,7 +7,7 @@ const data = {
     rows: [
         {
             title: "What do I need to rent a car?",
-            content: `Each person who intends to drive must bring a valid driver license to drive in Japan, passport, and a valid means of payment (generally via credit card). All of these items must be submitted on the day the car will be picked up. Kindly pay with an affiliated credit card. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver license.`,
+            content: `Each person who intends to drive must bring a valid driver license to drive in India, passport, and a valid means of payment (generally via credit card). All of these items must be submitted on the day the car will be picked up. Kindly pay with an affiliated credit card. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver license.`,
         },
         {
             title: "What should I do if I damage the car?",
