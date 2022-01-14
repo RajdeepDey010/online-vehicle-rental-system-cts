@@ -72,7 +72,7 @@ function Login() {
           </i>
         </div>
       ) : (
-        <div className="ui-message">Login {resp}</div>
+        <div className="ui-message"> {resp}</div>
       )}
 
       <form onSubmit={handleSubmit}>
