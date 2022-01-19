@@ -2,8 +2,13 @@ import React from "react";
 import "./Login.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import AuthenticationService from "./AuthenticationService.js";
 
-function Login() {
+import { Link } from "react-router-dom";
+import history from "./History";
+
+function Login(props) {
+  const authService = new AuthenticationService();
   let x = "";
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -52,29 +57,48 @@ function Login() {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       axios
         .post("http://localhost:8080/api/validate", formValues)
-        .then((response) => {
+        .then((respo) => {
           //console.log(response.data)
-          x = response.data;
-          //console.log(x)
+          x = respo.data.response;
+          console.log(x);
           setResp(x);
         })
         .catch((error) => console.log("Error", error));
     }
   }, [formErrors]);
 
-  return (
-    <div className="container">
-      {Object.keys(formErrors).length === 0 && isSubmit && resp !== "Failed" ? (
+  function Msg() {
+    if (Object.keys(formErrors).length === 0 && isSubmit && resp !== "Failed") {
+      authService.registerSuccessfulLogin(resp);
+      // props.history.push("/");
+
+      return (
         <div className="ui-message">
-          Logged in as{" "}
+          Logged in Successfully as{" "}
           <i>
             <b>{resp}</b>
           </i>
         </div>
-      ) : (
-        <div className="ui-message"> {resp}</div>
-      )}
+      );
+    } else {
+      return (
+        <div className="ui-message">
+          {" "}
+          {resp}
+          <h5 className="ui-message">
+            Not registered ?{" "}
+            <Link className="ui-message" to="/register">
+              click here
+            </Link>
+          </h5>
+        </div>
+      );
+    }
+  }
 
+  return (
+    <div className="container">
+      <Msg />
       <form onSubmit={handleSubmit}>
         <div className="ui-form">
           <h1>Login </h1>
