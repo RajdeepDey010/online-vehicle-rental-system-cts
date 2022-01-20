@@ -2,17 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Button } from "./Button";
 import { Button1 } from "./Button1.js";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./Navbar.css";
-import AuthenticationService from "../LogIn/AuthenticationService";
 
-function Navbar() {
+function Navbar({ isLoggedIn, dispatch }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
 
   const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
 
-  const authService = new AuthenticationService();
+  const closeMobileMenu = () => {
+    setClick(false);
+  };
+
+  const logout = () => {
+    setClick(false);
+    console.log("Logging out");
+    dispatch({ type: "LOGOUT" });
+  };
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -26,7 +33,7 @@ function Navbar() {
 
   useEffect(() => {
     showButton();
-  }, [authService.isloggedin]);
+  });
 
   window.addEventListener("resize", showButton);
 
@@ -36,7 +43,7 @@ function Navbar() {
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
             CarRentalz
-            <i class="fas fa-map-marked-alt"></i>
+            <i className="fas fa-map-marked-alt"></i>
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
@@ -80,24 +87,26 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/logout"
-                className="nav-links-mobile"
-                onClick={closeMobileMenu}
-              >
+              <Link to="/logout" className="nav-links-mobile">
                 Log Out
               </Link>
             </li>
           </ul>
-          {!authService.isloggedin && button && (
+          {!isLoggedIn && button && (
             <Button buttonStyle="btn--outline">LOG IN</Button>
           )}
-          {authService.isloggedin && button && (
-            <Button1 buttonStyle="btn--outline">LOG OUT</Button1>
+          {isLoggedIn && (
+            <Button1 buttonStyle="btn--outline" onClick={logout}>
+              LOG OUT
+            </Button1>
           )}
         </div>
       </nav>
     </>
   );
 }
-export default Navbar;
+
+const mapStateToProps = (state) => {
+  return { isLoggedIn: state.isLoggedIn };
+};
+export default connect(mapStateToProps)(Navbar);

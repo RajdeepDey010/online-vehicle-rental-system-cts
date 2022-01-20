@@ -2,7 +2,8 @@ import React from "react";
 import "./Login.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import AuthenticationService from "./AuthenticationService.js";
+import AuthenticationService from "./AuthenticationService";
+import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 import history from "./History";
@@ -27,12 +28,12 @@ function Login(props) {
     setIsSubmit(true);
   };
 
-  //   useEffect(() => {
-  //     console.log(formErrors);
-  //     if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //       console.log(formValues);
-  //     }
-  //   }, [formErrors]);
+  useEffect(() => {
+    console.log(formErrors);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(formValues);
+    }
+  }, [formErrors]);
 
   const validate = (values) => {
     const errors = {};
@@ -62,6 +63,7 @@ function Login(props) {
           x = respo.data.response;
           console.log(x);
           setResp(x);
+          props.dispatch({ type: "LOGGED_IN" });
         })
         .catch((error) => console.log("Error", error));
     }
@@ -131,4 +133,7 @@ function Login(props) {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {};
+};
+export default connect(mapStateToProps)(Login);

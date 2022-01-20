@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import AuthenticationService from "./AuthenticationService";
 
 function Logout() {
-  AuthenticationService.logout();
+  const authService = new AuthenticationService();
+
+  useEffect(() => {
+    authService.logout();
+  });
 
   return (
     <div className="container">

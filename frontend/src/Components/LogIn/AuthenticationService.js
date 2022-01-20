@@ -1,15 +1,9 @@
 class AuthenticationService {
-  constructor() {
-    this.isloggedin = false;
-  }
-
   registerSuccessfulLogin(username) {
     sessionStorage.setItem("Authenticated User", username);
-    this.isloggedin = true;
   }
   logout() {
     sessionStorage.removeItem("Authenticated User");
-    this.isloggedin = false;
   }
 
   isLoggedIn() {
