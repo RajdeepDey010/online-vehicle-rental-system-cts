@@ -1,16 +1,22 @@
 package com.cts.utils;
 
-import java.util.Arrays;
-import java.util.List;
+import com.cts.config.ApplicationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ApplicationUtil {
-    public static final List<String> excludedUrlPatternList =
-            Arrays.asList("/api/client/vehiclesearch",
-                    "/api/client/vehicle/slots");
 
-    public static boolean checkIfPathExists(String path) {
+    private ApplicationProperties applicationProperties;
+
+    @Autowired
+    public ApplicationUtil(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
+
+    public boolean checkIfPathExists(String path) {
         boolean exists = false;
-        for (String url : excludedUrlPatternList) {
+        for (String url : this.applicationProperties.getUnAuthenticatedList()) {
             if (path.startsWith(url)) {
                 exists = true;
                 break;

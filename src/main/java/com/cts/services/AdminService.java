@@ -1,8 +1,9 @@
 package com.cts.services;
 
-import com.cts.entities.BookingStatus;
-import com.cts.entities.User;
-import com.cts.entities.VehicleInformationEntity;
+import com.cts.entitiy.BookingStatus;
+import com.cts.entitiy.User;
+import com.cts.entitiy.VehicleInformationEntity;
+import com.cts.enums.UserType;
 import com.cts.model.UserBlockedResponse;
 import com.cts.model.VehicleRegisterResponse;
 import com.cts.repository.BookingStatusRepository;
@@ -52,7 +53,7 @@ public class AdminService {
 
     public VehicleRegisterResponse registerVechicle(VehicleInformationEntity vehicleInformationEntityInput) {
         VehicleRegisterResponse vehicleRegisterResponse = new VehicleRegisterResponse();
-        vehicleRegisterResponse.setRegisterSuccess(false);
+        vehicleRegisterResponse.setSuccess(false);
         String vehicleRegistrationNumber = vehicleInformationEntityInput.getVehicleRegistrationNumber();
 
         if (vehicleInformationRepository.existsById(vehicleRegistrationNumber)) {
@@ -63,7 +64,7 @@ public class AdminService {
                     vehicleInformationRepository.save(vehicleInformationEntityInput);
             vehicleRegisterResponse.setVehicleInformationEntity(vehicleInformationEntitySaved);
             vehicleRegisterResponse.setMessage("Vehicle Registration Success for " + vehicleRegistrationNumber);
-            vehicleRegisterResponse.setRegisterSuccess(true);
+            vehicleRegisterResponse.setSuccess(true);
             log.info("::registerVehicle vehicleRegistration Success " + vehicleRegistrationNumber);
         }
         return vehicleRegisterResponse;
@@ -98,9 +99,15 @@ public class AdminService {
                 userRepository.findByEmail(emailAddress);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setBlocked(true);
-            savedUser = userRepository.save(user);
-            userBlockedResponse.setBlocked(savedUser.isBlocked());
+            if (user.getUserType().equals(UserType.ADMIN)) {
+                log.info("user {} cannot be blocked as it is ADMIN", user.getEmail());
+                userBlockedResponse.setMessage("admin user cannot be blocked");
+            } else {
+                user.setBlocked(true);
+                savedUser = userRepository.save(user);
+                userBlockedResponse.setBlocked(savedUser.isBlocked());
+                userBlockedResponse.setMessage("user " + savedUser.getEmail() + " block successful");
+            }
         }
         return userBlockedResponse;
     }

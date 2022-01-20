@@ -1,4 +1,4 @@
-package com.cts.entities;
+package com.cts.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

@@ -14,6 +14,7 @@ public class ApplicationConstants {
     public static final String DELETEVEHICLE = "/vehicle/delete";
     public static final String BLOCKUSER = "/user/block/{emailAddress}";
     public static final String UNBLOCKUSER = "/user/unblock/{emailAddress}";
+    public static final String USERDETAILS = "/userdetails";
 
     public static final String VEHICLESEARCH = "/vehiclesearch";
     public static final String BOOK = "/book";
@@ -24,5 +25,8 @@ public class ApplicationConstants {
 
     public static final String USERVALIDATE = "/validate";
     public static final String USERREGISTER = "/register";
+
+    public static final String JWTTOKENHEADERNAME = "jwttoken";
+    public static final String VALIDATETOKEN = "/validatetoken";
 
 }

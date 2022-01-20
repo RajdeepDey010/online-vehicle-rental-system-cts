@@ -1,9 +1,9 @@
 package com.cts.controller;
 
 import com.cts.constants.ApplicationConstants;
-import com.cts.entities.BookingStatus;
-import com.cts.entities.User;
-import com.cts.entities.VehicleInformationEntity;
+import com.cts.entitiy.BookingStatus;
+import com.cts.entitiy.User;
+import com.cts.entitiy.VehicleInformationEntity;
 import com.cts.model.VehicleRegisterResponse;
 import com.cts.services.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin
 @RequestMapping(ApplicationConstants.ADMINPREFIX)
 @RestController
 public class AdminController {

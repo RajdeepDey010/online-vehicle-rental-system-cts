@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookingCancelResponse {
-    private boolean success;
+public class UserDetailsResponse {
+    private boolean success = false;
     private String message;
+    private UserDetails userDetails;
 }

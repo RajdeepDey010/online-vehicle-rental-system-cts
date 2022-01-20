@@ -1,8 +1,8 @@
-INSERT INTO USER (ID,ADDRESS,EMAIL,LICENSENO,NAME,PASSWORD,PHNO,BLOCKED) VALUES
-(1,'kakinada','vamsi@gmail.com','vamsi123', 'vamsi', 'vamsi@123', '9999999999',FALSE),
-(2, 'vizag', 'saloni@gmail.com','saloni123','saloni','saloni@123','8888888888',FALSE),
-(3, 'hyderabad','chetna@gmail.com','chetna123','chetna','chetna@123','7777777777',FALSE),
-(4, 'bhopal', 'parth@gmail.com','parth123','parth','parth@123','8921890012',FALSE);
+INSERT INTO USER (ID,ADDRESS,EMAIL,LICENSENUMBER,NAME,PASSWORD,PHONENUMBER,BLOCKED,USER_TYPE) VALUES
+(1,'kakinada','vamsi@gmail.com','vamsi123', 'vamsi', 'vamsi@123', '9999999999',FALSE, 'ADMIN'),
+(2, 'vizag', 'pavan@gmail.com','pavan123','pavan','pavan@123','8888888888',FALSE, 'CLIENT'),
+(3, 'hyderabad','manoj@gmail.com','manoj123','manoj','manoj@123','7777777777',FALSE,'MERCHANT'),
+(4, 'bhopal', 'parth@gmail.com','parth123','parth sharma','parth@123','89218912',FALSE,'ADMIN');
 
 
 

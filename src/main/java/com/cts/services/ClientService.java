@@ -1,21 +1,20 @@
 package com.cts.services;
 
-import com.cts.repository.BookingStatusRepository;
-import com.cts.repository.VehicleInformationRepository;
 import com.cts.config.ApplicationProperties;
 import com.cts.dto.BookingCancelDto;
-import com.cts.entities.BookingStatus;
-import com.cts.entities.VehicleInformationEntity;
+import com.cts.entitiy.BookingStatus;
+import com.cts.entitiy.User;
+import com.cts.entitiy.VehicleInformationEntity;
 import com.cts.model.*;
+import com.cts.repository.BookingStatusRepository;
+import com.cts.repository.UserRepository;
+import com.cts.repository.VehicleInformationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -24,46 +23,65 @@ public class ClientService {
     private VehicleInformationRepository vehicleInformationRepository;
     private BookingStatusRepository bookingStatusRepository;
     private ApplicationProperties applicationProperties;
+    private UserRepository userRepository;
     private HttpServletRequest httpServletRequest;
+
 
     @Autowired
     public ClientService(VehicleInformationRepository vehicleInformationRepository,
                          BookingStatusRepository bookingStatusRepository,
                          ApplicationProperties applicationProperties,
-                         HttpServletRequest httpServletRequest) {
+                         UserRepository userRepository, HttpServletRequest httpServletRequest) {
         this.vehicleInformationRepository = vehicleInformationRepository;
         this.bookingStatusRepository = bookingStatusRepository;
         this.applicationProperties = applicationProperties;
+        this.userRepository = userRepository;
         this.httpServletRequest = httpServletRequest;
     }
 
     public VehicleAvailableResponse searchVehicle(VehicleSearch vehicleSearch) {
 
+        VehicleAvailableResponse vehicleAvailableResponse = new VehicleAvailableResponse();
+        vehicleAvailableResponse.setVehicleAvailableInCities(new ArrayList<>());
         List<VehicleInformation> vehicleInformationList = new ArrayList<>();
-        Iterable<VehicleInformationEntity> vehicleInformationEntityList =
-                vehicleInformationRepository.findAllByCity(vehicleSearch.getCity());
 
+        Iterable<VehicleInformationEntity> vehicleInformationEntityList =
+                vehicleInformationRepository.findAll();
 
         for (VehicleInformationEntity vehicleAvailability : vehicleInformationEntityList) {
-            VehicleInformation vehicleInformationEntity = new VehicleInformation();
 
+            String city = vehicleAvailability.getCity();
+            if (!vehicleAvailableResponse.getVehicleAvailableInCities().contains(city)) {
+                vehicleAvailableResponse.getVehicleAvailableInCities().add(vehicleAvailability.getCity());
+            }
+
+            if (!vehicleAvailability.getCity().equalsIgnoreCase(vehicleSearch.getCity().toLowerCase(Locale.ROOT))) {
+                continue;
+            }
+            VehicleInformation vehicleInformationEntity = new VehicleInformation();
             vehicleInformationEntity.setVehicleName(vehicleAvailability.getVehicleName());
             vehicleInformationEntity.setCity(vehicleAvailability.getCity());
             vehicleInformationEntity.setVehicleRegistrationNumber(vehicleAvailability.getVehicleRegistrationNumber());
             vehicleInformationEntity.setCostPerKilometer(vehicleAvailability.getCostPerKiloMeter());
-
             vehicleInformationList.add(vehicleInformationEntity);
         }
-        VehicleAvailableResponse vehicleAvailableResponse = new VehicleAvailableResponse();
-        vehicleAvailableResponse.setTotalVehicleAvailable(vehicleInformationList.size());
+
+
+        vehicleAvailableResponse.setVehicleAvailableForCity(vehicleInformationList.size());
         vehicleAvailableResponse.setVehicleInformationList(vehicleInformationList);
+        vehicleAvailableResponse.setTotalCitiesAvailable(vehicleAvailableResponse.getVehicleAvailableInCities().size());
+        if (vehicleInformationList.size() == 0) {
+            vehicleAvailableResponse.setMessage("No Vehicles Found for City");
+        } else {
+            vehicleAvailableResponse.setMessage("Vehicles Found for City " + vehicleSearch.getCity());
+        }
         return vehicleAvailableResponse;
     }
 
     public VehicleBookResponse bookVehicle(VehicleBook vehicleBookInput) {
 
         VehicleBookResponse vehicleBookResponse = new VehicleBookResponse();
-        vehicleBookResponse.setBookSuccess(false);
+        vehicleBookResponse.setSuccess(false);
 
         try {
 
@@ -83,14 +101,13 @@ public class ClientService {
                 } else if (startTime.after(now) && endTime.after(now) && startTime.before(endTime)) {
 
                     // check booking max Duration
-                    if(endTime.getTime() - startTime.getTime() > applicationProperties.getBookingMaxDuration() * 60 * 1000){
+                    if (endTime.getTime() - startTime.getTime() > applicationProperties.getBookingMaxDuration() * 60 * 1000) {
                         log.info("Booking Duration Time Limit Reached. booking not Available for {} minutes",
                                 applicationProperties.getBookingMaxDuration());
-                        String hours = Double.toString(applicationProperties.getBookingMaxDuration()/60.0);
+                        String hours = Double.toString(applicationProperties.getBookingMaxDuration() / 60.0);
 
                         vehicleBookResponse.setMessage("booking duration limit is for " + hours + " hours");
-                    }
-                    else{
+                    } else {
                         // check if booking already Present
                         boolean timeSlotAvailable = true;
                         List<BookingStatus> bookingStatusList =
@@ -114,7 +131,8 @@ public class ClientService {
 
                         if (!timeSlotAvailable) {
                             log.info("Time Slot Not Available for Vehicle: {}", vehicleBookInput.getVehicleRegistrationNumber());
-                            vehicleBookResponse.setMessage("Time Slot Not Available. Vehicle Already Registered");
+                            vehicleBookResponse.setMessage("Time Slot Not Available for Vehicle " + vehicleBookInput.getVehicleRegistrationNumber());
+                            vehicleBookResponse.setBookedVehicleSlots(this.getVehicleSlots(vehicleBookInput.getVehicleRegistrationNumber()).getBookedSlotList());
                         } else {
                             BookingStatus bookingStatus = new BookingStatus();
 
@@ -133,8 +151,9 @@ public class ClientService {
                             bookingStatus = bookingStatusRepository.save(bookingStatus);
 
 
-                            vehicleBookResponse.setBookSuccess(true);
+                            vehicleBookResponse.setSuccess(true);
                             vehicleBookResponse.setBookingId(bookingStatus.getBookingId());
+                            vehicleBookResponse.setVehicleRegistrationNumber(bookingStatus.getVehicleRegistrationNumber());
                             vehicleBookResponse.setMessage("Booking for vehicle: " + bookingStatus.getVehicleRegistrationNumber()
                                     + " successful");
 
@@ -168,12 +187,11 @@ public class ClientService {
         BookingDetailResponse bookingDetailResponse = new BookingDetailResponse();
         bookingDetailResponse.setSuccess(false);
 
-        if(null != bookingStatus){
+        if (null != bookingStatus) {
             bookingDetailResponse.setSuccess(true);
             bookingDetailResponse.setBookingStatus(bookingStatus);
             bookingDetailResponse.setMessage("Booking Found for BookingId " + bookingId);
-        }
-        else{
+        } else {
             bookingDetailResponse.setMessage("No Booking Found with BookingId " + bookingId);
         }
         return bookingDetailResponse;
@@ -184,55 +202,67 @@ public class ClientService {
         bookingCancelResponse.setSuccess(false);
 
         String bookingId = bookingCancelDto.getBookingId();
+
         Optional<BookingStatus> bookingStatusOptional = bookingStatusRepository.findById(bookingId);
         if (bookingStatusOptional.isPresent()) {
             BookingStatus bookingStatus = bookingStatusOptional.get();
-            if(bookingStatus.isRideCompleted()){
+            if (bookingStatus.isRideCompleted()) {
                 bookingCancelResponse.setMessage("Ride for Booking Already Completed");
-            }
-            else if (bookingStatus.getBookingStatus().equalsIgnoreCase("booked")) {
+            } else if (bookingStatus.getBookingStatus().equalsIgnoreCase("booked")) {
                 bookingStatus.setBookingStatus("cancelled");
                 bookingStatus.setRideCompleted(true);
                 bookingStatusRepository.save(bookingStatus);
 
                 bookingCancelResponse.setSuccess(true);
-                bookingCancelResponse.setMessage("Vehicle Book: " + bookingStatus.getBookingId() +
+                bookingCancelResponse.setMessage("BookingId: " + bookingStatus.getBookingId() +
                         " successfuly cancelled");
             }
+        }
+        else{
+            log.info("bookingId: {} not Found for Cancellation", bookingId);
+            bookingCancelResponse.setMessage("bookingId " + bookingId + " Not Found");
         }
         return bookingCancelResponse;
     }
 
-    public RideCompleteResponse rideComplete(String bookingId){
+    public RideCompleteResponse rideComplete(RideComplete rideComplete) {
+        String bookingId = rideComplete.getBookingId();
         RideCompleteResponse rideCompleteResponse = new RideCompleteResponse();
         rideCompleteResponse.setSuccess(false);
 
         Optional<BookingStatus> bookingStatusOptional = bookingStatusRepository.findById(bookingId);
-        if(bookingStatusOptional.isPresent()){
+        if (bookingStatusOptional.isPresent()) {
             BookingStatus bookingStatus = bookingStatusOptional.get();
-            bookingStatus.setRideCompleted(true);
-            bookingStatusRepository.save(bookingStatus);
-            rideCompleteResponse.setSuccess(true);
-            rideCompleteResponse.setMessage("Ride Completed for vehicle: "+
-                    bookingStatus.getVehicleRegistrationNumber());
-        }
-        else{
+            if(bookingStatus.isRideCompleted()){
+                rideCompleteResponse.setMessage("Ride Already Completed");
+            }
+            else if (rideComplete.getDistanceCovered() > 0) {
+                bookingStatus.setRideCompleted(true);
+                bookingStatus.setTotalDistanceCovered(rideComplete.getDistanceCovered());
+                bookingStatusRepository.save(bookingStatus);
+                rideCompleteResponse.setSuccess(true);
+                rideCompleteResponse.setMessage("Ride Completed for vehicle: " +
+                        bookingStatus.getVehicleRegistrationNumber());
+            } else {
+                rideCompleteResponse.setMessage("distance Covered must be greater than 0");
+            }
+        } else {
             rideCompleteResponse.setMessage("bookingId not Found");
         }
         return rideCompleteResponse;
     }
 
-    public VehicleSlotsResponse getVehicleSlots(String vehicleRegistrationNumber){
+    public VehicleSlotsResponse getVehicleSlots(String vehicleRegistrationNumber) {
         VehicleSlotsResponse vehicleSlotsResponse = new VehicleSlotsResponse();
         vehicleSlotsResponse.setSuccess(true);
 
         List<BookedSlot> bookedSlotList = new ArrayList<>();
 
         List<BookingStatus> bookingStatusList =
-        bookingStatusRepository.findAllByVehicleRegistrationNumberAndBookingStatusAndRideCompleted(
-                vehicleRegistrationNumber,"booked",false);
+                bookingStatusRepository.findAllByVehicleRegistrationNumberAndBookingStatusAndRideCompleted(
+                        vehicleRegistrationNumber, "booked", false);
 
-        for(BookingStatus bookingStatus: bookingStatusList){
+        for (BookingStatus bookingStatus : bookingStatusList) {
             BookedSlot bookedSlot = new BookedSlot();
             bookedSlot.setStartTime(bookingStatus.getStartTime());
             bookedSlot.setEndTime(bookingStatus.getEndTime());
@@ -240,13 +270,35 @@ public class ClientService {
         }
         vehicleSlotsResponse.setVehicleRegistrationNumber(vehicleRegistrationNumber);
         vehicleSlotsResponse.setBookedSlotList(bookedSlotList);
+        if(bookingStatusList.size() == 0 ){
+            vehicleSlotsResponse.setMessage("Vehicle " + vehicleRegistrationNumber + " Slots Not Found");
+        }
         return vehicleSlotsResponse;
 
     }
 
-    public List<BookingStatus> getAllUserBookings(){
+    public List<BookingStatus> getAllUserBookings() {
         String email = httpServletRequest.getHeader("email");
         return bookingStatusRepository.findAllByBookedUserEmail(email);
+    }
+
+    public UserDetailsResponse getUserDetails() {
+        UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
+        userDetailsResponse.setSuccess(false);
+        String email = httpServletRequest.getHeader("email");
+
+        // check if email exists in database
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            // token authorized to fetch user details
+            userDetailsResponse.setMessage("User Details Found");
+            userDetailsResponse.setSuccess(true);
+            userDetailsResponse.setUserDetails(userDetailsEntityBuilder(
+                    userOptional.get()));
+        } else {
+            userDetailsResponse.setMessage("User " + email + " Not Found");
+        }
+        return userDetailsResponse;
     }
 
     private VehicleInformationEntity getVehicleInformation(String vehcileRegistrationNumber) {
@@ -254,6 +306,12 @@ public class ClientService {
         Optional<VehicleInformationEntity> vehicleInformationOptional =
                 vehicleInformationRepository.findById(vehcileRegistrationNumber);
         return vehicleInformationOptional.orElse(null);
+    }
+
+    private UserDetails userDetailsEntityBuilder(User user) {
+        return UserDetails.builder().name(user.getName()).phonenumber(user.getPhonenumber()).
+                licensenumber(user.getLicensenumber()).address(user.getAddress())
+                .blocked(user.isBlocked()).userType(user.getUserType()).build();
     }
 
 }

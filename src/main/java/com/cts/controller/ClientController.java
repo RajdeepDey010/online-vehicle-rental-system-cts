@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping(ApplicationConstants.CLIENTPREFIX)
 public class ClientController {
@@ -48,10 +49,10 @@ public class ClientController {
         return new ResponseEntity<>(clientService.bookingCancel(bookingCancelDto), HttpStatus.OK);
     }
 
-    @GetMapping(ApplicationConstants.RIDECOMPLETE)
-    public ResponseEntity<RideCompleteResponse> rideComplete(@RequestParam String bookingId) {
-        log.info("::rideComplete bookingId: {}", bookingId);
-        return new ResponseEntity<>(clientService.rideComplete(bookingId), HttpStatus.OK);
+    @PostMapping(ApplicationConstants.RIDECOMPLETE)
+    public ResponseEntity<RideCompleteResponse> rideComplete(@RequestBody RideComplete rideComplete) {
+        log.info("::rideComplete bookingId: {}", rideComplete.getBookingId());
+        return new ResponseEntity<>(clientService.rideComplete(rideComplete), HttpStatus.OK);
     }
 
     @GetMapping(ApplicationConstants.VEHICLESLOTS)
@@ -65,6 +66,12 @@ public class ClientController {
     public ResponseEntity<?> getAllBooking() {
         log.info("::getAllBooking");
         return new ResponseEntity<>(clientService.getAllUserBookings(), HttpStatus.OK);
+    }
+
+    @GetMapping(ApplicationConstants.USERDETAILS)
+    public ResponseEntity<UserDetailsResponse> getUserDetails() {
+        log.info("::getUserDetails");
+        return new ResponseEntity<>(clientService.getUserDetails(), HttpStatus.OK);
     }
 
 }

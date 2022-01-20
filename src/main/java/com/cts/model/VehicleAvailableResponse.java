@@ -8,6 +8,9 @@ import java.util.List;
 @Getter
 @Setter
 public class VehicleAvailableResponse {
-    private int totalVehicleAvailable;
+    private int vehicleAvailableForCity;
+    private String message;
     private List<VehicleInformation> vehicleInformationList;
+    private int totalCitiesAvailable;
+    private List<String> vehicleAvailableInCities;
 }

@@ -1,6 +1,7 @@
 package com.cts.model;
 
 
+import com.cts.enums.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +10,6 @@ import lombok.Setter;
 public class UserValidateResponse {
     private String response;
     private String jwtToken;
-    private boolean loginSuccess;
+    private boolean success;
+    private UserType userType;
 }

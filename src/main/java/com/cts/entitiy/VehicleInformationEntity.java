@@ -1,4 +1,4 @@
-package com.cts.entities;
+package com.cts.entitiy;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name="VehicleInformation")
+@Table(name = "VehicleInformation")
 public class VehicleInformationEntity {
     @Id
     private String vehicleRegistrationNumber;

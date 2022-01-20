@@ -2,7 +2,8 @@ package com.cts.controller;
 
 import com.cts.constants.ApplicationConstants;
 import com.cts.dto.UserDto;
-import com.cts.entities.User;
+import com.cts.dto.UserRegisterDto;
+import com.cts.model.AuthorizationResponse;
 import com.cts.model.UserRegisterResponse;
 import com.cts.model.UserValidateResponse;
 import com.cts.services.UserService;
@@ -18,8 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApplicationConstants.APIPREFIX)
 public class UserController {
 
+    private UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping(ApplicationConstants.USERVALIDATE)
     public ResponseEntity<UserValidateResponse> validateUser(@RequestBody UserDto userDto) {
@@ -28,8 +33,16 @@ public class UserController {
     }
 
     @PostMapping(ApplicationConstants.USERREGISTER)
-    public ResponseEntity<UserRegisterResponse> registerUser(@RequestBody User user) {
-        log.info("::registerUser user: {}", user.getEmail());
-        return new ResponseEntity<>(userService.register(user), HttpStatus.OK);
+    public ResponseEntity<UserRegisterResponse> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
+        log.info("::registerUser user: {}", userRegisterDto.getEmail());
+        return new ResponseEntity<>(userService.register(userRegisterDto), HttpStatus.OK);
+    }
+
+    @GetMapping(ApplicationConstants.VALIDATETOKEN)
+    public ResponseEntity<?> validateToken(){
+        AuthorizationResponse authorizationResponse = new AuthorizationResponse();
+        authorizationResponse.setMessage("Bearer Token Valid");
+        authorizationResponse.setSuccess(true);
+        return new ResponseEntity<>(authorizationResponse, HttpStatus.OK);
     }
 }

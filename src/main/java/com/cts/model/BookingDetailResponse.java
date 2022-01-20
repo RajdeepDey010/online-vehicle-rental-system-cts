@@ -1,6 +1,6 @@
 package com.cts.model;
 
-import com.cts.entities.BookingStatus;
+import com.cts.entitiy.BookingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
