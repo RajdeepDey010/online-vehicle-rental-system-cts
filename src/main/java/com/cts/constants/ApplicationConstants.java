@@ -14,10 +14,7 @@ public class ApplicationConstants {
     public static final String DELETEVEHICLE = "/vehicle/delete";
     public static final String BLOCKUSER = "/user/block/{emailAddress}";
     public static final String UNBLOCKUSER = "/user/unblock/{emailAddress}";
-<<<<<<< HEAD
     public static final String USERDETAILS = "/userdetails";
-=======
->>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 
     public static final String VEHICLESEARCH = "/vehiclesearch";
     public static final String BOOK = "/book";
@@ -29,10 +26,7 @@ public class ApplicationConstants {
     public static final String USERVALIDATE = "/validate";
     public static final String USERREGISTER = "/register";
 
-<<<<<<< HEAD
     public static final String JWTTOKENHEADERNAME = "jwttoken";
     public static final String VALIDATETOKEN = "/validatetoken";
 
-=======
->>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 }

@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-<<<<<<< HEAD
 @CrossOrigin
-=======
->>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 @RestController
 @RequestMapping(ApplicationConstants.CLIENTPREFIX)
 public class ClientController {
@@ -52,17 +49,10 @@ public class ClientController {
         return new ResponseEntity<>(clientService.bookingCancel(bookingCancelDto), HttpStatus.OK);
     }
 
-<<<<<<< HEAD
     @PostMapping(ApplicationConstants.RIDECOMPLETE)
     public ResponseEntity<RideCompleteResponse> rideComplete(@RequestBody RideComplete rideComplete) {
         log.info("::rideComplete bookingId: {}", rideComplete.getBookingId());
         return new ResponseEntity<>(clientService.rideComplete(rideComplete), HttpStatus.OK);
-=======
-    @GetMapping(ApplicationConstants.RIDECOMPLETE)
-    public ResponseEntity<RideCompleteResponse> rideComplete(@RequestParam String bookingId) {
-        log.info("::rideComplete bookingId: {}", bookingId);
-        return new ResponseEntity<>(clientService.rideComplete(bookingId), HttpStatus.OK);
->>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
     }
 
     @GetMapping(ApplicationConstants.VEHICLESLOTS)
@@ -78,13 +68,10 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getAllUserBookings(), HttpStatus.OK);
     }
 
-<<<<<<< HEAD
     @GetMapping(ApplicationConstants.USERDETAILS)
     public ResponseEntity<UserDetailsResponse> getUserDetails() {
         log.info("::getUserDetails");
         return new ResponseEntity<>(clientService.getUserDetails(), HttpStatus.OK);
     }
 
-=======
->>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 }
