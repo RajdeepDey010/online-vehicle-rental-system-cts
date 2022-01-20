@@ -1,9 +1,15 @@
 package com.cts.services;
 
+<<<<<<< HEAD
 import com.cts.entitiy.BookingStatus;
 import com.cts.entitiy.User;
 import com.cts.entitiy.VehicleInformationEntity;
 import com.cts.enums.UserType;
+=======
+import com.cts.entities.BookingStatus;
+import com.cts.entities.User;
+import com.cts.entities.VehicleInformationEntity;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 import com.cts.model.UserBlockedResponse;
 import com.cts.model.VehicleRegisterResponse;
 import com.cts.repository.BookingStatusRepository;
@@ -53,7 +59,11 @@ public class AdminService {
 
     public VehicleRegisterResponse registerVechicle(VehicleInformationEntity vehicleInformationEntityInput) {
         VehicleRegisterResponse vehicleRegisterResponse = new VehicleRegisterResponse();
+<<<<<<< HEAD
         vehicleRegisterResponse.setSuccess(false);
+=======
+        vehicleRegisterResponse.setRegisterSuccess(false);
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         String vehicleRegistrationNumber = vehicleInformationEntityInput.getVehicleRegistrationNumber();
 
         if (vehicleInformationRepository.existsById(vehicleRegistrationNumber)) {
@@ -64,7 +74,11 @@ public class AdminService {
                     vehicleInformationRepository.save(vehicleInformationEntityInput);
             vehicleRegisterResponse.setVehicleInformationEntity(vehicleInformationEntitySaved);
             vehicleRegisterResponse.setMessage("Vehicle Registration Success for " + vehicleRegistrationNumber);
+<<<<<<< HEAD
             vehicleRegisterResponse.setSuccess(true);
+=======
+            vehicleRegisterResponse.setRegisterSuccess(true);
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             log.info("::registerVehicle vehicleRegistration Success " + vehicleRegistrationNumber);
         }
         return vehicleRegisterResponse;
@@ -99,6 +113,7 @@ public class AdminService {
                 userRepository.findByEmail(emailAddress);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+<<<<<<< HEAD
             if (user.getUserType().equals(UserType.ADMIN)) {
                 log.info("user {} cannot be blocked as it is ADMIN", user.getEmail());
                 userBlockedResponse.setMessage("admin user cannot be blocked");
@@ -108,6 +123,11 @@ public class AdminService {
                 userBlockedResponse.setBlocked(savedUser.isBlocked());
                 userBlockedResponse.setMessage("user " + savedUser.getEmail() + " block successful");
             }
+=======
+            user.setBlocked(true);
+            savedUser = userRepository.save(user);
+            userBlockedResponse.setBlocked(savedUser.isBlocked());
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         }
         return userBlockedResponse;
     }

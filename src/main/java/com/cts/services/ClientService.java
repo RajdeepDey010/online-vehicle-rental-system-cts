@@ -1,5 +1,6 @@
 package com.cts.services;
 
+<<<<<<< HEAD
 import com.cts.config.ApplicationProperties;
 import com.cts.dto.BookingCancelDto;
 import com.cts.entitiy.BookingStatus;
@@ -9,12 +10,28 @@ import com.cts.model.*;
 import com.cts.repository.BookingStatusRepository;
 import com.cts.repository.UserRepository;
 import com.cts.repository.VehicleInformationRepository;
+=======
+import com.cts.repository.BookingStatusRepository;
+import com.cts.repository.VehicleInformationRepository;
+import com.cts.config.ApplicationProperties;
+import com.cts.dto.BookingCancelDto;
+import com.cts.entities.BookingStatus;
+import com.cts.entities.VehicleInformationEntity;
+import com.cts.model.*;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 
 @Slf4j
 @Service
@@ -23,24 +40,37 @@ public class ClientService {
     private VehicleInformationRepository vehicleInformationRepository;
     private BookingStatusRepository bookingStatusRepository;
     private ApplicationProperties applicationProperties;
+<<<<<<< HEAD
     private UserRepository userRepository;
     private HttpServletRequest httpServletRequest;
 
 
+=======
+    private HttpServletRequest httpServletRequest;
+
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
     @Autowired
     public ClientService(VehicleInformationRepository vehicleInformationRepository,
                          BookingStatusRepository bookingStatusRepository,
                          ApplicationProperties applicationProperties,
+<<<<<<< HEAD
                          UserRepository userRepository, HttpServletRequest httpServletRequest) {
         this.vehicleInformationRepository = vehicleInformationRepository;
         this.bookingStatusRepository = bookingStatusRepository;
         this.applicationProperties = applicationProperties;
         this.userRepository = userRepository;
+=======
+                         HttpServletRequest httpServletRequest) {
+        this.vehicleInformationRepository = vehicleInformationRepository;
+        this.bookingStatusRepository = bookingStatusRepository;
+        this.applicationProperties = applicationProperties;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         this.httpServletRequest = httpServletRequest;
     }
 
     public VehicleAvailableResponse searchVehicle(VehicleSearch vehicleSearch) {
 
+<<<<<<< HEAD
         VehicleAvailableResponse vehicleAvailableResponse = new VehicleAvailableResponse();
         vehicleAvailableResponse.setVehicleAvailableInCities(new ArrayList<>());
         List<VehicleInformation> vehicleInformationList = new ArrayList<>();
@@ -59,10 +89,21 @@ public class ClientService {
                 continue;
             }
             VehicleInformation vehicleInformationEntity = new VehicleInformation();
+=======
+        List<VehicleInformation> vehicleInformationList = new ArrayList<>();
+        Iterable<VehicleInformationEntity> vehicleInformationEntityList =
+                vehicleInformationRepository.findAllByCity(vehicleSearch.getCity());
+
+
+        for (VehicleInformationEntity vehicleAvailability : vehicleInformationEntityList) {
+            VehicleInformation vehicleInformationEntity = new VehicleInformation();
+
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             vehicleInformationEntity.setVehicleName(vehicleAvailability.getVehicleName());
             vehicleInformationEntity.setCity(vehicleAvailability.getCity());
             vehicleInformationEntity.setVehicleRegistrationNumber(vehicleAvailability.getVehicleRegistrationNumber());
             vehicleInformationEntity.setCostPerKilometer(vehicleAvailability.getCostPerKiloMeter());
+<<<<<<< HEAD
             vehicleInformationList.add(vehicleInformationEntity);
         }
 
@@ -75,13 +116,25 @@ public class ClientService {
         } else {
             vehicleAvailableResponse.setMessage("Vehicles Found for City " + vehicleSearch.getCity());
         }
+=======
+
+            vehicleInformationList.add(vehicleInformationEntity);
+        }
+        VehicleAvailableResponse vehicleAvailableResponse = new VehicleAvailableResponse();
+        vehicleAvailableResponse.setTotalVehicleAvailable(vehicleInformationList.size());
+        vehicleAvailableResponse.setVehicleInformationList(vehicleInformationList);
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         return vehicleAvailableResponse;
     }
 
     public VehicleBookResponse bookVehicle(VehicleBook vehicleBookInput) {
 
         VehicleBookResponse vehicleBookResponse = new VehicleBookResponse();
+<<<<<<< HEAD
         vehicleBookResponse.setSuccess(false);
+=======
+        vehicleBookResponse.setBookSuccess(false);
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 
         try {
 
@@ -101,6 +154,7 @@ public class ClientService {
                 } else if (startTime.after(now) && endTime.after(now) && startTime.before(endTime)) {
 
                     // check booking max Duration
+<<<<<<< HEAD
                     if (endTime.getTime() - startTime.getTime() > applicationProperties.getBookingMaxDuration() * 60 * 1000) {
                         log.info("Booking Duration Time Limit Reached. booking not Available for {} minutes",
                                 applicationProperties.getBookingMaxDuration());
@@ -108,6 +162,16 @@ public class ClientService {
 
                         vehicleBookResponse.setMessage("booking duration limit is for " + hours + " hours");
                     } else {
+=======
+                    if(endTime.getTime() - startTime.getTime() > applicationProperties.getBookingMaxDuration() * 60 * 1000){
+                        log.info("Booking Duration Time Limit Reached. booking not Available for {} minutes",
+                                applicationProperties.getBookingMaxDuration());
+                        String hours = Double.toString(applicationProperties.getBookingMaxDuration()/60.0);
+
+                        vehicleBookResponse.setMessage("booking duration limit is for " + hours + " hours");
+                    }
+                    else{
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
                         // check if booking already Present
                         boolean timeSlotAvailable = true;
                         List<BookingStatus> bookingStatusList =
@@ -131,8 +195,12 @@ public class ClientService {
 
                         if (!timeSlotAvailable) {
                             log.info("Time Slot Not Available for Vehicle: {}", vehicleBookInput.getVehicleRegistrationNumber());
+<<<<<<< HEAD
                             vehicleBookResponse.setMessage("Time Slot Not Available for Vehicle " + vehicleBookInput.getVehicleRegistrationNumber());
                             vehicleBookResponse.setBookedVehicleSlots(this.getVehicleSlots(vehicleBookInput.getVehicleRegistrationNumber()).getBookedSlotList());
+=======
+                            vehicleBookResponse.setMessage("Time Slot Not Available. Vehicle Already Registered");
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
                         } else {
                             BookingStatus bookingStatus = new BookingStatus();
 
@@ -151,9 +219,14 @@ public class ClientService {
                             bookingStatus = bookingStatusRepository.save(bookingStatus);
 
 
+<<<<<<< HEAD
                             vehicleBookResponse.setSuccess(true);
                             vehicleBookResponse.setBookingId(bookingStatus.getBookingId());
                             vehicleBookResponse.setVehicleRegistrationNumber(bookingStatus.getVehicleRegistrationNumber());
+=======
+                            vehicleBookResponse.setBookSuccess(true);
+                            vehicleBookResponse.setBookingId(bookingStatus.getBookingId());
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
                             vehicleBookResponse.setMessage("Booking for vehicle: " + bookingStatus.getVehicleRegistrationNumber()
                                     + " successful");
 
@@ -187,11 +260,20 @@ public class ClientService {
         BookingDetailResponse bookingDetailResponse = new BookingDetailResponse();
         bookingDetailResponse.setSuccess(false);
 
+<<<<<<< HEAD
         if (null != bookingStatus) {
             bookingDetailResponse.setSuccess(true);
             bookingDetailResponse.setBookingStatus(bookingStatus);
             bookingDetailResponse.setMessage("Booking Found for BookingId " + bookingId);
         } else {
+=======
+        if(null != bookingStatus){
+            bookingDetailResponse.setSuccess(true);
+            bookingDetailResponse.setBookingStatus(bookingStatus);
+            bookingDetailResponse.setMessage("Booking Found for BookingId " + bookingId);
+        }
+        else{
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             bookingDetailResponse.setMessage("No Booking Found with BookingId " + bookingId);
         }
         return bookingDetailResponse;
@@ -202,6 +284,7 @@ public class ClientService {
         bookingCancelResponse.setSuccess(false);
 
         String bookingId = bookingCancelDto.getBookingId();
+<<<<<<< HEAD
 
         Optional<BookingStatus> bookingStatusOptional = bookingStatusRepository.findById(bookingId);
         if (bookingStatusOptional.isPresent()) {
@@ -209,11 +292,21 @@ public class ClientService {
             if (bookingStatus.isRideCompleted()) {
                 bookingCancelResponse.setMessage("Ride for Booking Already Completed");
             } else if (bookingStatus.getBookingStatus().equalsIgnoreCase("booked")) {
+=======
+        Optional<BookingStatus> bookingStatusOptional = bookingStatusRepository.findById(bookingId);
+        if (bookingStatusOptional.isPresent()) {
+            BookingStatus bookingStatus = bookingStatusOptional.get();
+            if(bookingStatus.isRideCompleted()){
+                bookingCancelResponse.setMessage("Ride for Booking Already Completed");
+            }
+            else if (bookingStatus.getBookingStatus().equalsIgnoreCase("booked")) {
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
                 bookingStatus.setBookingStatus("cancelled");
                 bookingStatus.setRideCompleted(true);
                 bookingStatusRepository.save(bookingStatus);
 
                 bookingCancelResponse.setSuccess(true);
+<<<<<<< HEAD
                 bookingCancelResponse.setMessage("BookingId: " + bookingStatus.getBookingId() +
                         " successfuly cancelled");
             }
@@ -227,10 +320,21 @@ public class ClientService {
 
     public RideCompleteResponse rideComplete(RideComplete rideComplete) {
         String bookingId = rideComplete.getBookingId();
+=======
+                bookingCancelResponse.setMessage("Vehicle Book: " + bookingStatus.getBookingId() +
+                        " successfuly cancelled");
+            }
+        }
+        return bookingCancelResponse;
+    }
+
+    public RideCompleteResponse rideComplete(String bookingId){
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         RideCompleteResponse rideCompleteResponse = new RideCompleteResponse();
         rideCompleteResponse.setSuccess(false);
 
         Optional<BookingStatus> bookingStatusOptional = bookingStatusRepository.findById(bookingId);
+<<<<<<< HEAD
         if (bookingStatusOptional.isPresent()) {
             BookingStatus bookingStatus = bookingStatusOptional.get();
             if(bookingStatus.isRideCompleted()){
@@ -247,22 +351,44 @@ public class ClientService {
                 rideCompleteResponse.setMessage("distance Covered must be greater than 0");
             }
         } else {
+=======
+        if(bookingStatusOptional.isPresent()){
+            BookingStatus bookingStatus = bookingStatusOptional.get();
+            bookingStatus.setRideCompleted(true);
+            bookingStatusRepository.save(bookingStatus);
+            rideCompleteResponse.setSuccess(true);
+            rideCompleteResponse.setMessage("Ride Completed for vehicle: "+
+                    bookingStatus.getVehicleRegistrationNumber());
+        }
+        else{
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             rideCompleteResponse.setMessage("bookingId not Found");
         }
         return rideCompleteResponse;
     }
 
+<<<<<<< HEAD
     public VehicleSlotsResponse getVehicleSlots(String vehicleRegistrationNumber) {
+=======
+    public VehicleSlotsResponse getVehicleSlots(String vehicleRegistrationNumber){
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         VehicleSlotsResponse vehicleSlotsResponse = new VehicleSlotsResponse();
         vehicleSlotsResponse.setSuccess(true);
 
         List<BookedSlot> bookedSlotList = new ArrayList<>();
 
         List<BookingStatus> bookingStatusList =
+<<<<<<< HEAD
                 bookingStatusRepository.findAllByVehicleRegistrationNumberAndBookingStatusAndRideCompleted(
                         vehicleRegistrationNumber, "booked", false);
 
         for (BookingStatus bookingStatus : bookingStatusList) {
+=======
+        bookingStatusRepository.findAllByVehicleRegistrationNumberAndBookingStatusAndRideCompleted(
+                vehicleRegistrationNumber,"booked",false);
+
+        for(BookingStatus bookingStatus: bookingStatusList){
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             BookedSlot bookedSlot = new BookedSlot();
             bookedSlot.setStartTime(bookingStatus.getStartTime());
             bookedSlot.setEndTime(bookingStatus.getEndTime());
@@ -270,18 +396,26 @@ public class ClientService {
         }
         vehicleSlotsResponse.setVehicleRegistrationNumber(vehicleRegistrationNumber);
         vehicleSlotsResponse.setBookedSlotList(bookedSlotList);
+<<<<<<< HEAD
         if(bookingStatusList.size() == 0 ){
             vehicleSlotsResponse.setMessage("Vehicle " + vehicleRegistrationNumber + " Slots Not Found");
         }
+=======
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         return vehicleSlotsResponse;
 
     }
 
+<<<<<<< HEAD
     public List<BookingStatus> getAllUserBookings() {
+=======
+    public List<BookingStatus> getAllUserBookings(){
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         String email = httpServletRequest.getHeader("email");
         return bookingStatusRepository.findAllByBookedUserEmail(email);
     }
 
+<<<<<<< HEAD
     public UserDetailsResponse getUserDetails() {
         UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
         userDetailsResponse.setSuccess(false);
@@ -301,6 +435,8 @@ public class ClientService {
         return userDetailsResponse;
     }
 
+=======
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
     private VehicleInformationEntity getVehicleInformation(String vehcileRegistrationNumber) {
 
         Optional<VehicleInformationEntity> vehicleInformationOptional =
@@ -308,10 +444,13 @@ public class ClientService {
         return vehicleInformationOptional.orElse(null);
     }
 
+<<<<<<< HEAD
     private UserDetails userDetailsEntityBuilder(User user) {
         return UserDetails.builder().name(user.getName()).phonenumber(user.getPhonenumber()).
                 licensenumber(user.getLicensenumber()).address(user.getAddress())
                 .blocked(user.isBlocked()).userType(user.getUserType()).build();
     }
 
+=======
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 }

@@ -1,5 +1,6 @@
 package com.cts.filter;
 
+<<<<<<< HEAD
 import com.cts.constants.ApplicationConstants;
 import com.cts.jwt.JwtTokenService;
 import com.cts.model.MutableHttpServletRequest;
@@ -9,6 +10,12 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+=======
+import com.cts.jwt.JwtTokenService;
+import com.cts.model.MutableHttpServletRequest;
+import com.cts.utils.ApplicationUtil;
+import io.jsonwebtoken.ExpiredJwtException;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+<<<<<<< HEAD
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -30,20 +38,34 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtTokenService = jwtTokenService;
         this.applicationUtil = applicationUtil;
         this.jsonMapper = jsonMapper;
+=======
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+    private JwtTokenService jwtTokenService;
+
+    public JwtRequestFilter(JwtTokenService jwtTokenService) {
+        this.jwtTokenService = jwtTokenService;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         boolean success = false;
+<<<<<<< HEAD
         AuthorizationResponse authorizationResponse = new AuthorizationResponse();
 
         // check if current url is anauthenticated or not
         if (this.applicationUtil.checkIfPathExists(request.getRequestURI())) {
+=======
+
+        if (ApplicationUtil.checkIfPathExists(request.getRequestURI())) {
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
             chain.doFilter(request, response);
             success = true;
         } else {
             final String requestTokenHeader = request.getHeader("Authorization");
+<<<<<<< HEAD
 
             // JWT Token is in the form "Bearer token". Remove Bearer word and get
             // only the Token
@@ -57,10 +79,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     MutableHttpServletRequest mutableHttpServletRequest = new MutableHttpServletRequest(request);
                     mutableHttpServletRequest.putHeader("email", userEmail);
                     mutableHttpServletRequest.putHeader(ApplicationConstants.JWTTOKENHEADERNAME, jwtToken);
+=======
+            String jwtToken;
+            // JWT Token is in the form "Bearer token". Remove Bearer word and get
+            // only the Token
+            if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+                jwtToken = requestTokenHeader.substring(7);
+                try {
+                    String userEmail = jwtTokenService.getUsernameFromToken(jwtToken);
+                    MutableHttpServletRequest mutableHttpServletRequest = new MutableHttpServletRequest(request);
+                    mutableHttpServletRequest.putHeader("email", userEmail);
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
                     chain.doFilter(mutableHttpServletRequest, response);
                     success = true;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Unable to get JWT Token");
+<<<<<<< HEAD
                     authorizationResponse.setMessage("Jwt Token Invalid");
                 } catch (ExpiredJwtException e) {
                     System.out.println("JWT Token has expired");
@@ -85,6 +119,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(jsonMapper.writeValueAsString(authorizationResponse));
+=======
+                } catch (ExpiredJwtException e) {
+                    System.out.println("JWT Token has expired");
+                }
+            } else {
+                logger.warn("JWT Token does not begin with Bearer String");
+            }
+        }
+        if (!success) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"message\": \"UnAuthorized Not Allowed\"}");
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
         }
     }
 

@@ -1,9 +1,15 @@
 package com.cts.controller;
 
 import com.cts.constants.ApplicationConstants;
+<<<<<<< HEAD
 import com.cts.entitiy.BookingStatus;
 import com.cts.entitiy.User;
 import com.cts.entitiy.VehicleInformationEntity;
+=======
+import com.cts.entities.BookingStatus;
+import com.cts.entities.User;
+import com.cts.entities.VehicleInformationEntity;
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 import com.cts.model.VehicleRegisterResponse;
 import com.cts.services.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
+<<<<<<< HEAD
 @CrossOrigin
+=======
+>>>>>>> c02b3eea0e412ff309ea6021d4452863302d61c1
 @RequestMapping(ApplicationConstants.ADMINPREFIX)
 @RestController
 public class AdminController {
