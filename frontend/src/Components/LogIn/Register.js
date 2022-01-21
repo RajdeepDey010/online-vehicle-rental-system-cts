@@ -13,6 +13,8 @@ function Register() {
     address: "",
     email: "",
     password: "",
+    userType: "",
+    token: "",
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -81,6 +83,7 @@ function Register() {
               placeholder="Name"
               value={formValues.name}
               onChange={handleChange}
+              required
             />
           </div>
           <p className="ui-message"></p>
@@ -92,17 +95,19 @@ function Register() {
               placeholder="Phone Number"
               value={formValues.phno}
               onChange={handleChange}
+              required
             />
           </div>
           <p className="ui-message"></p>
           <div className="field">
             <label>License No.: </label> &nbsp;
             <input
-              type="number"
+              type="text"
               name="licenseno"
               placeholder="License"
               value={formValues.licenseno}
               onChange={handleChange}
+              required
             />
           </div>
           <p className="ui-message"></p>
@@ -114,6 +119,7 @@ function Register() {
               placeholder="Address"
               onChange={handleChange}
               value={formValues.address}
+              required
             />
           </div>
           <p className="ui-message"></p>
@@ -125,8 +131,10 @@ function Register() {
               placeholder="Email"
               onChange={handleChange}
               value={formValues.email}
+              required
             />
           </div>
+
           <p className="ui-message">{formErrors.email}</p>
           <div className="field">
             <label>Password </label> &nbsp;
@@ -136,9 +144,38 @@ function Register() {
               placeholder="password"
               onChange={handleChange}
               value={formValues.password}
+              required
             />
           </div>
           <p className="ui-message">{formErrors.password}</p>
+
+          <p className="ui-message">{formErrors.email}</p>
+          <div className="field">
+            <label>User Type</label> &nbsp;
+            <input
+              type="text"
+              name="userType"
+              placeholder="admin/client"
+              onChange={handleChange}
+              value={formValues.userType}
+              required
+            />
+          </div>
+          <p className="ui-message">{formErrors.password}</p>
+
+          <p className="ui-message">{formErrors.email}</p>
+          <div className="field">
+            <label>token</label> &nbsp;
+            <input
+              type="password"
+              name="token"
+              placeholder="*FOR ADMIN ONLY*"
+              onChange={handleChange}
+              value={formValues.token}
+            />
+          </div>
+          <p className="ui-message">{formErrors.password}</p>
+
           <button className="fluid ui button blue">Submit</button>
         </div>
       </form>
