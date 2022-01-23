@@ -7,7 +7,7 @@ const data = {
     rows: [
         {
             title: "What do I need to rent a car?",
-            content: `Each person who intends to drive must bring a valid driver license to drive in India, passport, and a valid means of payment (generally via credit card). All of these items must be submitted on the day the car will be picked up. Kindly pay with an affiliated credit card. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver license.`,
+            content: `Each person who intends to drive must bring a valid driver license to drive in Japan, passport, and a valid means of payment (generally via credit card). All of these items must be submitted on the day the car will be picked up. Kindly pay with an affiliated credit card. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver license.`,
         },
         {
             title: "What should I do if I damage the car?",
@@ -18,8 +18,8 @@ const data = {
             content: `A reservation cancellation fee pre-determined by the company may apply if you cancel your reservation. No fee shall apply if the cancellation is made at least seven days prior to the date of pick-up. The cancellation fee shall apply for those made six days or less prior to the date of pick-up.`,
         },
         {
-            title: "Can I pay in cash?",
-            content: `Yes. We generally accept payment by UPI, credit cards, debit cards, net-banking and wallets, but if the reservation is made in advance, we allow payment in cash at the rental station where the vehicle is to be picked up. If you wish to pay in cash, you must also submit an item of identification (copies are acceptable) in addition to your driver’s license. You will be required to pay by UPI, credit cards, debit cards, net-banking and wallets, if you rent a car from a rental station without a reservation.`,
+            title: "What is the package version?",
+            content: <p>current version is 1.2.1</p>,
         },
     ],
 };
@@ -42,15 +42,16 @@ const styles = {
     rowContentPaddingRight: '150px'
 };
 
+
 const Faqs = ()=> {
-    return (
-      <div className="main">
-          <div className='faq'>
-              <Faq data={data}
-              styles={styles}
-              />
-          </div>
-      </div>
-    );
-  };
-  export default Faqs;  
+  return (
+    <div className="main">
+        <div className='faq'>
+            <Faq data={data}
+            styles={styles}
+            />
+        </div>
+    </div>
+  );
+};
+export default Faqs;
