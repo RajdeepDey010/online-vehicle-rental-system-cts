@@ -39,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse();
 
         // check if current url is anauthenticated or not
-        if (this.applicationUtil.checkIfPathExists(request.getRequestURI())) {
+        if (request.getMethod().equalsIgnoreCase("options")||this.applicationUtil.checkIfPathExists(request.getRequestURI())) {
             chain.doFilter(request, response);
             success = true;
         } else {
