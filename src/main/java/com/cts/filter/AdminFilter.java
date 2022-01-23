@@ -37,7 +37,7 @@ public class AdminFilter extends OncePerRequestFilter {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse();
 
         // check if url request for unauthenticated API
-        if (applicationUtil.checkIfPathExists(request.getRequestURI())) {
+        if (request.getMethod().equalsIgnoreCase("options")||applicationUtil.checkIfPathExists(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             success = true;
         } else {

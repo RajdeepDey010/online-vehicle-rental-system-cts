@@ -5,8 +5,6 @@ import com.cts.dto.UserRegisterDto;
 import com.cts.entitiy.User;
 import com.cts.enums.UserType;
 import com.cts.jwt.JwtTokenService;
-import com.cts.model.UserDetails;
-import com.cts.model.UserDetailsResponse;
 import com.cts.model.UserRegisterResponse;
 import com.cts.model.UserValidateResponse;
 import com.cts.repository.UserRepository;
@@ -14,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Slf4j
@@ -116,3 +113,4 @@ public class UserServiceImplementation implements UserService {
 
     }
 }
+

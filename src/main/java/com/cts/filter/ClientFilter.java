@@ -38,7 +38,7 @@ public class ClientFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (applicationUtil.checkIfPathExists(request.getRequestURI())) {
+        if (request.getMethod().equalsIgnoreCase("options")||applicationUtil.checkIfPathExists(request.getRequestURI())) {
             filterChain.doFilter(request, response);
 
         } else {

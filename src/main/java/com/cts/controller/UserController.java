@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(ApplicationConstants.VALIDATETOKEN)
-    public ResponseEntity<?> validateToken(){
+    public ResponseEntity<?> validateToken() {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse();
         authorizationResponse.setMessage("Bearer Token Valid");
         authorizationResponse.setSuccess(true);
