@@ -1,0 +1,44 @@
+.container{
+    background-color: #333;
+    display: block;
+    max-width: 800px;
+    margin-top: 150px;
+    margin-left: 150px;
+    border-radius: 25px;
+    text-align: center;
+    width: 40%;
+    padding: 60px;
+    opacity: 0.8;
+}
+.ui-message{
+    color: #fff;
+}
+h1 {
+    color: #fff;
+}
+.ui-form {
+    display: inline-block;
+    text-align:left;
+    line-height: 35px;
+}
+.field{
+    color: #fff;
+    text-decoration: solid;
+}
+.button{
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    background: rgb(240, 93, 93);
+}
+.button:hover{
+    padding: 8px 20px;
+    transition: all 0.5s ease-out;
+    background: #fff;
+    color: red;
+    transition: 250ms;
+}
