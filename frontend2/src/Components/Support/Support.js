@@ -3,6 +3,37 @@ import './Support.css';
 import { Button } from '../Navbar/Button';
 import { Link } from 'react-router-dom';
 
+document.addEventListener('DOMContentLoaded', function() {
+  var citySelect = document.getElementById('city-select');
+  var contactDetailsDiv = document.getElementById('contact-details');
+
+  citySelect.addEventListener('change', function() {
+      var selectedCity = citySelect.value;
+      var contactDetails = getContactDetails(selectedCity);
+
+      contactDetailsDiv.innerHTML = '';
+
+      if (contactDetails) {
+          var contactDetailsText = document.createElement('p');
+          contactDetailsText.textContent = 'Contact Details: ' + contactDetails;
+          contactDetailsDiv.appendChild(contactDetailsText);
+      }
+  });
+});
+
+function getContactDetails(city) {
+  if (city === 'city1') {
+      return '9865439871';
+  } else if (city === 'city2') {
+      return '9453265798';
+  } else if (city === 'city3') {
+      return '9065432887';
+  } else {
+      return null;
+  }
+}
+
+//<Link to='/'><p><i>Contact Number - 9865439871 (Chennai),  9453265798 (Bangalore),  9065432887 (Pune)</i></p></Link>
 function Support() {
     return (
       <div className='support-container'>
@@ -30,7 +61,18 @@ function Support() {
         <div class='support-links'>
             <div class='support-link-items'>
               <h2>Support</h2>
-                <Link to='/'><p><i>Contact Number - 9865439871 (Chennai),  9453265798 (Bangalore),  9065432887 (Pune)</i></p></Link>
+                
+                    <p><label for="city-select" class='city'>City: </label>
+                      <select id="city-select">
+                        <option value="">-- Select a city --</option>
+                        <option value="city1">Chennai</option>
+                        <option value="city2">Bangalore</option>
+                        <option value="city3">Pune</option>
+                      </select>
+                      
+                      <div id="contact-details"></div></p>
+                    
+
                 <Link to='/'><p><i>Emergency Contact - 8830152476</i></p></Link>
                 <Link to='/'><p><i>E-mail id - carrentalz@gmail.com</i></p></Link><br/>
                 <Link to='/'>Office Address - 4, Kaveri Building, 41, Nr Oshiwara Police Station, Oshiwara, Andheri West, Mumbai, Maharashtra, India - 400053 </Link>

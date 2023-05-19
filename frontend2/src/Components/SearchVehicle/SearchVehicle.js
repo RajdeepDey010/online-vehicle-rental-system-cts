@@ -65,12 +65,14 @@ export default class SearchVehicle extends Component {
                 <form>
                     
                     <label>PickUp Date - </label> &nbsp;
-                    <input type="date" value={this.pickUPdate} onChange={this.changepickUpdate}/>
+                    <input type="date" value={this.pickUPdate} onChange={this.changepickUpdate}/> &nbsp;
+                    <input type="time" step="1"/>
                     <br/>
                     <br/>
                     
                     <label>Drop Date - </label> &nbsp;
-                    <input type="date" value={this.dropdate} onChange={this.changedropdate}/>
+                    <input type="date" value={this.dropdate} onChange={this.changedropdate}/> &nbsp;
+                    <input type="time" step="1"/>
                     <br/>
                     <br/>
 

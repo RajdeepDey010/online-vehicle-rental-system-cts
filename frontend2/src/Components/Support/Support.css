@@ -182,3 +182,19 @@
 
   @media screen and (max-width: 768px) {
   }
+
+
+  .city{
+    color: #ffffff;
+    font-size: medium;
+  }
+
+  #contact-details{
+    color: #ffffff;
+    font-size: medium;
+  }
+
+  option{
+    
+    font-size: medium;
+  }
