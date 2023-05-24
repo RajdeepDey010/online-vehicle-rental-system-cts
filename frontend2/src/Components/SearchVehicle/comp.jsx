@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import carImage from '../car2.jpg';
 import './comp.css'
 import axios from 'axios';
 
@@ -83,6 +84,8 @@ export default class VehicleList extends Component {
 
     render() {
         return (
+            <a href={carImage} target="_blank" rel="noopener noreferrer">
+            <div className="searchvehicle" style={{ backgroundImage: `url(${carImage})` }}>
             <div>
                 <h2>Vehicle List</h2>
                 <br/>
@@ -109,6 +112,8 @@ export default class VehicleList extends Component {
                 </table>
             </div>
             </div>
+            </div>
+            </a>
         )
     }
 }
