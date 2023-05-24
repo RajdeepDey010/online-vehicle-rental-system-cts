@@ -8,9 +8,9 @@ const styles = {
   titleTextColor: 'white',
   transitionDuration: '1s',
   timingFunc: 'ease',
-  rowTitleColor: 'white',
+  rowTitleColor: 'pink',// Set the question text color to pink
   rowTitleTextSize: '20px',
-  rowContentColor: 'white',
+  rowContentColor: 'violet',// Set the answer text color to violet
   rowContentTextSize: '16px',
   rowContentPaddingTop: '10px',
   rowContentPaddingBottom: '10px',
