@@ -3,6 +3,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Faqs from "./Components/FAQ/Faqs";
 import Login from "./Components/LogIn/Login";
 import SearchVehicle from "./Components/SearchVehicle/SearchVehicle";
+import {AddTimer} from './Components/SearchVehicle/SearchVehicle';
 import Aboutus from "./Components/AboutUs/Aboutus";
 import Support from "./Components/Support/Support";
 import VehicleList from "./Components/SearchVehicle/comp"
@@ -18,6 +19,7 @@ function App() {
     <>
       <Router>
         <Navbar />
+        <AddTimer />
         <Switch>
           <Route path="/" exact component={SearchVehicle} />
           <Route path="/Faqs" component={Faqs} />
