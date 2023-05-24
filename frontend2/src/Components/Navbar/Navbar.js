@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./Navbar.css";
 
+
+
 function Navbar({ isLoggedIn, dispatch }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
@@ -105,6 +107,10 @@ function Navbar({ isLoggedIn, dispatch }) {
               LOG OUT
             </Button1>
           )}
+
+            &nbsp;
+
+
         </div>
       </nav>
     </>
