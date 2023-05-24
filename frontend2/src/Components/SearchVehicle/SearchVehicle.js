@@ -1,5 +1,29 @@
 import React, { Component } from 'react';
-import './SearchVehicle.css'
+import './SearchVehicle.css';
+import { useState, useEffect } from 'react';
+
+export function AddTimer()
+{
+    const [currentTime, setCurrentTime] = useState(new Date());
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentTime(new Date());
+        }, 1000);
+      
+        // Clean up the interval timer when the component is unmounted
+        return () => {
+          clearInterval(timer);
+        };
+      }, []);
+
+      return (
+        <div>
+          <div style={{ position: 'fixed', top: -8, right: 0, padding: '10px',color: '#ffffff',fontStyle: 'Bold' }}>
+            {currentTime.toLocaleTimeString()}
+          </div>
+        </div>
+      );      
+}
 
 export default class SearchVehicle extends Component {
 
@@ -19,6 +43,7 @@ export default class SearchVehicle extends Component {
         this.saveB = this.saveB.bind(this);
         
     }
+      
 
     changepickLocation = (event) => {
         this.setState({pickupLocation : event.target.value});
