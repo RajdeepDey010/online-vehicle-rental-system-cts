@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Faq from 'react-faq-component';
 import './Faqs.css';
 
@@ -6,7 +6,7 @@ const styles = {
   bgColor: '#333',
   arrowColor: 'white',
   titleTextColor: 'white',
-  transitionDuration: '1s',
+  transitionDuration: '2s',// Has set 2seconds here to apply animation of two seconds delay of question-answer on page load
   timingFunc: 'ease',
   rowTitleColor: 'pink',// Set the question text color to pink
   rowTitleTextSize: '20px',
@@ -67,7 +67,9 @@ const Faqs = () => {
     <div className="main">
       <div className="faq">
         <Faq data={data} styles={styles} />
-        <div>
+      </div>
+
+      <div>
           <input
             type="text"
             placeholder="Enter the question"
@@ -82,8 +84,9 @@ const Faqs = () => {
           />
           <button onClick={handleAddQuestion}>Add</button>
         </div>
-      </div>
     </div>
+
+    
   );
 };
 
