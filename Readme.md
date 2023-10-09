@@ -1,4 +1,5 @@
-Online Vehicle Rental System
+# Online Vehicle Rental System
 
-Home Page
-![Dashboard!](img\home_pg.jpg)
+### This web project was part of my web development training at the company.
+
+![Home Page](img\home_pg.jpg)
