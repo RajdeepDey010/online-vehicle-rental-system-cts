@@ -1,4 +1,4 @@
 Online Vehicle Rental System
 
 Home Page
-!(img\home_pg.jpg)
+!(C:\Users\USER\Documents\DEEP\kodin-ground\SCRATCH PROJECTS\Cache\online-vehicle-rental-system_ADM21AJ010_POD4_AES_Project_13\img\home_pg.jpg)
